@@ -1,7 +1,8 @@
 import nanogl from 'nanogl';
 
 class LineCollection {
-  constructor(gl) {
+  constructor(gl, color) {
+    this._color = color;
     this.gl = gl;
     this._lineObjects = [];
     this._lines = [];
@@ -17,6 +18,7 @@ class LineCollection {
 
   render(shader) {
     if (this.vBuffer) {
+      shader.uColor(this._color);
       this.vBuffer.attribPointer(shader);
       this.gl.drawArrays(this.gl.LINES, 0, this._lineObjects.length * 2);
     }

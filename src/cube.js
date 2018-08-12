@@ -1,10 +1,11 @@
 const nanogl = require('nanogl');
 
 class Cube {
-  constructor(gl, position) {
+  constructor(gl, position, color) {
     this.gl = gl;
     this._position = position;
     this._createRenderBuffer();
+    this._color = color;
   }
 
   update() {
@@ -14,7 +15,7 @@ class Cube {
   render(shader) {
     this.vBuffer.attribPointer(shader);
     this.iBuffer.bind();
-    shader.uColor([1, 0, 1]);
+    shader.uColor(this._color);
     this.iBuffer.draw(this.gl.TRIANGLES, undefined, 0);
   }
 

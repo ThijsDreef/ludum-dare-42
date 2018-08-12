@@ -1,26 +1,27 @@
 .game-container {
   margin: 0;
-  padding: 0;
-}
+  padding: 0; }
 
 .game-canvas {
   margin: 0;
   padding: 0;
-  touch-action: none;
-}
+  touch-action: none; }
 
 .game-score {
   color: white;
-  font-size: 2em;
-}
+  font-size: 2em; }
 
 .game-explanation {
   position: absolute;
   touch-action: none;
-  -webkit-user-select: none; /* Safari */
--moz-user-select: none; /* Firefox */
--ms-user-select: none; /* IE10+/Edge */
-user-select: none; /* Standard */
+  -webkit-user-select: none;
+  /* Safari */
+  -moz-user-select: none;
+  /* Firefox */
+  -ms-user-select: none;
+  /* IE10+/Edge */
+  user-select: none;
+  /* Standard */
   top: 25%;
   min-width: 100px;
   max-width: 600px;
@@ -30,8 +31,7 @@ user-select: none; /* Standard */
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  font-size: 2em;
-}
+  font-size: 2em; }
 
 .game-score-container {
   position: absolute;
@@ -42,14 +42,12 @@ user-select: none; /* Standard */
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
-}
+  text-align: center; }
 
 .game-timer {
   color: white;
   font-size: 4em;
-  text-align: center;
-}
+  text-align: center; }
 
 .game-timer-container {
   position: absolute;
@@ -60,12 +58,11 @@ user-select: none; /* Standard */
   right: 0;
   margin-left: auto;
   margin-right: auto;
-  text-align: center;
-}
+  text-align: center; }
 
 .game-advance-button {
   position: absolute;
-  bottom:10%;
+  bottom: 10%;
   min-width: 100px;
   max-width: 200px;
   background-color: white;
@@ -75,15 +72,14 @@ user-select: none; /* Standard */
   margin-left: auto;
   margin-right: auto;
   border-radius: 15px;
-  display: none;
-}
+  display: none; }
 
 .game-advance-button__text {
-  text-align: center;
-}
+  text-align: center; }
 
 body {
   margin: 0;
   overflow: hidden;
-  padding: 0;
-}
+  padding: 0; }
+
+/*# sourceMappingURL=data:application/json;charset=utf-8;base64,eyJ2ZXJzaW9uIjozLCJzb3VyY2VzIjpbXSwibmFtZXMiOltdLCJtYXBwaW5ncyI6IiIsImZpbGUiOiJzdHlsZXMuY3NzIiwic291cmNlUm9vdCI6IiJ9*/

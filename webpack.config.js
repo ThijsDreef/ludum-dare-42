@@ -29,7 +29,7 @@ module.exports = {
                    loader: ExtractTextPlugin.extract(['css-loader', 'sass-loader'])
             },
             {
-              test: /\.glsl$/,
+              test: /(\.glsl$|\.vert$|\.frag$)/,
               loader: 'webpack-glsl-loader'
             }
         ]

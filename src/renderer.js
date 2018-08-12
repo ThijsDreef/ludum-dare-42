@@ -9,6 +9,10 @@ class Renderer {
 
   }
 
+  clearObjects() {
+    this._objects = [];
+  }
+
   addShader(shader, key) {
     shader.bind();
     this._shaderList[key] = shader;

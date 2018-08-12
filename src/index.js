@@ -1,88 +1,96 @@
-import nanogl from 'nanogl';
-import mat4 from 'gl-mat4';
+import Level from './level';
+import Timer from './timer';
 
-import Renderer from './renderer';
-import Cube from './cube';
-import Camera from './camera';
-import CollisionDetection from './collisionDetection';
-import LineCollection from './lineCollection';
-import Score from './score';
-
-import PointCloud from './pointCloud';
-import pointVert from './shaders/point.vert';
-import pointFrag from './shaders/point.frag';
-
-import cubeVert from './shaders/simpleGeo.vert';
-import cubeFrag from './shaders/simpleGeo.frag';
-
+const advanceButton = document.querySelector('.game-advance-button');
+const advanceButtonText = document.querySelector('.game-advance-button__text');
 const canvas = document.querySelector('.game-canvas');
 const gl = canvas.getContext('webgl', {preserveDrawingBuffer: true});
-const pointsShader = new nanogl.Program(gl, pointVert, pointFrag);
-const cubeShader = new nanogl.Program(gl, cubeVert, cubeFrag);
+const timer = new Timer();
+const timerDisplay = document.querySelector('.game-timer');
+const explanation = document.querySelector('.game-explanation');
+let buttonDown = false;
+
+advanceButton.addEventListener('click', ()=>{
+  buttonDown = true;
+})
 
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const p = new PointCloud(null, 12, [10, 10, 10], gl);
-const cubes = [];
-cubes.push(new Cube(gl, [15, 15, 15]));
-cubes.push(new Cube(gl, [-15, 15, 15]));
-cubes.push(new Cube(gl, [15, -15, 15]));
-cubes.push(new Cube(gl, [15, 15, -15]));
-cubes.push(new Cube(gl, [-15, 15, -15]));
-cubes.push(new Cube(gl, [-15, -15, 15]));
-cubes.push(new Cube(gl, [15, -15, -15]));
-cubes.push(new Cube(gl, [-15, -15, -15]));
-
-
-const renderer = new Renderer();
-const cameraObject = new Camera(canvas.height / canvas.width);
-const lines = new LineCollection(gl);
-
-const cd = new CollisionDetection(lines, p);
-
-
-
-
-
-
-
-renderer.addObject(p);
-for (let i = 0; i < cubes.length; i++)
-  renderer.addObject(cubes[i]);
-
-renderer.addObject(lines);
-
-
-renderer.addShader(pointsShader, 'points');
-renderer.addShader(cubeShader, 'cube');
-
-let camera = mat4.create();
+gl.clearColor(0, 0, 0, 1);
 
 gl.viewport(0, 0, canvas.width, canvas.height);
-gl.clearColor(0, 0, 0, 1);
 gl.enable(gl.DEPTH_TEST);
 
-gl.clear(gl.COLOR_BUFFER_BIT);
+let currentLvl = 0;
+const level = new Level(gl, canvas.width, canvas.height);
+level.start(currentLvl);
 
-draw();
+timer.startCountDown(30);
+lose();
 
-function draw() {
-  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-  const pos = cameraObject.getMousePos();
-  // console.log(pos);
-  mat4.perspective(camera, 45, canvas.width / canvas.height, 0.01, 150);
-  mat4.translate(camera, camera, [0, 0, cameraObject.getZoom()]);
-  mat4.rotateY(camera, camera, cameraObject.getRotation()[1]);
-  mat4.rotateX(camera, camera, cameraObject.getRotation()[0]);
-  if (cameraObject.lastFrameUp()) {
-    cd.checkSelect({x: pos.x / canvas.width, y: pos.y / canvas.height}, camera);
-
+function loop() {
+  const timeLeft = timer.getTimeLeft();
+  timerDisplay.textContent = timeLeft;
+  if (timeLeft <= 0) {
+    if (level.getCurrentScore() > currentLvl * 10 * currentLvl + 50) {
+      win();
+    } else {
+      lose();
+    }
+  } else {
+    level.update();
+    requestAnimationFrame(loop);
   }
 
-  renderer.setCamera(camera);
+}
 
-  renderer.render();
-  requestAnimationFrame(draw);
+function winLoop() {
+  level.update();
+  if (buttonDown) {
+    level.start(currentLvl);
+    timer.startCountDown(30);
+    advanceButton.style.display = 'none';
+    buttonDown = false;
+    requestAnimationFrame(loop);
+  }
+  else {
+    requestAnimationFrame(winLoop);
+  }
+}
+
+function loseLoop() {
+  level.update();
+  if (buttonDown) {
+    explanation.style.display = 'none';
+    currentLvl = 0;
+    level.start(currentLvl);
+    timer.startCountDown(30);
+
+    buttonDown = false;
+    advanceButton.style.display = 'none';
+    requestAnimationFrame(loop);
+  } else {
+    requestAnimationFrame(loseLoop);
+  }
+}
+
+function win() {
+  currentLvl++;
+  advanceButton.style.display = 'block';
+
+  advanceButtonText.textContent = 'next level';
+  level.stop();
+  // level.start(currentLvl);
+  // timer.startCountDown(30);
+  requestAnimationFrame(winLoop);
+}
+
+function lose() {
+  level.stop();
+  advanceButtonText.textContent = 'restart';
+  advanceButton.style.display = 'block';
+
+  requestAnimationFrame(loseLoop);
 
 }
