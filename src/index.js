@@ -8,6 +8,8 @@ const gl = canvas.getContext('webgl', {preserveDrawingBuffer: true});
 const timer = new Timer();
 const timerDisplay = document.querySelector('.game-timer');
 const explanation = document.querySelector('.game-explanation');
+const scoreNeeded = document.querySelector('.game-score-needed');
+const lvlText = document.querySelector('.game-level-counter');
 let buttonDown = false;
 
 advanceButton.addEventListener('click', ()=>{
@@ -25,6 +27,7 @@ gl.enable(gl.DEPTH_TEST);
 let currentLvl = 0;
 const level = new Level(gl, canvas.width, canvas.height);
 level.start(currentLvl);
+scoreNeeded.textContent = ' needed: ' + (currentLvl * 10 * currentLvl + 50);
 
 timer.startCountDown(30);
 lose();
@@ -49,8 +52,10 @@ function winLoop() {
   level.update();
   if (buttonDown) {
     level.start(currentLvl);
+    lvlText.textContent = 'lvl: ' + (currentLvl + 1);
     timer.startCountDown(30);
     advanceButton.style.display = 'none';
+    scoreNeeded.textContent = ' needed: ' + (currentLvl * 10 * currentLvl + 50);
     buttonDown = false;
     requestAnimationFrame(loop);
   }
@@ -64,6 +69,8 @@ function loseLoop() {
   if (buttonDown) {
     explanation.style.display = 'none';
     currentLvl = 0;
+    lvlText.textContent = 'lvl: ' + (currentLvl + 1);
+    
     level.start(currentLvl);
     timer.startCountDown(30);
 
