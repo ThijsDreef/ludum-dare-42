@@ -14,45 +14,46 @@ class Cube {
   render(shader) {
     this.vBuffer.attribPointer(shader);
     this.iBuffer.bind();
+    shader.uColor([1, 0, 1]);
     this.iBuffer.draw(this.gl.TRIANGLES, undefined, 0);
   }
 
   _createRenderBuffer() {
     var vertices =
-     [-1.0, -1.0,  1.0,
-       1.0, -1.0,  1.0,
-       1.0,  1.0,  1.0,
-      -1.0,  1.0,  1.0,
+     [-1.0 + this._position[0], -1.0 + this._position[1],  1.0 + this._position[2],
+       1.0 + this._position[0], -1.0 + this._position[1],  1.0 + this._position[2],
+       1.0 + this._position[0],  1.0 + this._position[1],  1.0 + this._position[2],
+      -1.0 + this._position[0],  1.0 + this._position[1],  1.0 + this._position[2],
 
       // Back face
-      -1.0, -1.0, -1.0,
-      -1.0,  1.0, -1.0,
-       1.0,  1.0, -1.0,
-       1.0, -1.0, -1.0,
+      -1.0 + this._position[0], -1.0 + this._position[1], -1.0 + this._position[2],
+      -1.0 + this._position[0],  1.0 + this._position[1], -1.0 + this._position[2],
+       1.0 + this._position[0],  1.0 + this._position[1], -1.0 + this._position[2],
+       1.0 + this._position[0], -1.0 + this._position[1], -1.0 + this._position[2],
 
       // Top face
-      -1.0,  1.0, -1.0,
-      -1.0,  1.0,  1.0,
-       1.0,  1.0,  1.0,
-       1.0,  1.0, -1.0,
+      -1.0 + this._position[0],  1.0 + this._position[1], -1.0 + this._position[2],
+      -1.0 + this._position[0],  1.0 + this._position[1],  1.0 + this._position[2],
+       1.0 + this._position[0],  1.0 + this._position[1],  1.0 + this._position[2],
+       1.0 + this._position[0],  1.0 + this._position[1], -1.0 + this._position[2],
 
       // Bottom face
-      -1.0, -1.0, -1.0,
-       1.0, -1.0, -1.0,
-       1.0, -1.0,  1.0,
-      -1.0, -1.0,  1.0,
+      -1.0 + this._position[0], -1.0 + this._position[1], -1.0 + this._position[2],
+       1.0 + this._position[0], -1.0 + this._position[1], -1.0 + this._position[2],
+       1.0 + this._position[0], -1.0 + this._position[1],  1.0 + this._position[2],
+      -1.0 + this._position[0], -1.0 + this._position[1],  1.0 + this._position[2],
 
       // Right face
-       1.0, -1.0, -1.0,
-       1.0,  1.0, -1.0,
-       1.0,  1.0,  1.0,
-       1.0, -1.0,  1.0,
+       1.0 + this._position[0], -1.0 + this._position[1], -1.0 + this._position[2],
+       1.0 + this._position[0],  1.0 + this._position[1], -1.0 + this._position[2],
+       1.0 + this._position[0],  1.0 + this._position[1],  1.0 + this._position[2],
+       1.0 + this._position[0], -1.0 + this._position[1],  1.0 + this._position[2],
 
       // Left face
-      -1.0, -1.0, -1.0,
-      -1.0, -1.0,  1.0,
-      -1.0,  1.0,  1.0,
-      -1.0,  1.0, -1.0];
+      -1.0 + this._position[0], -1.0 + this._position[1], -1.0 + this._position[2],
+      -1.0 + this._position[0], -1.0 + this._position[1],  1.0 + this._position[2],
+      -1.0 + this._position[0],  1.0 + this._position[1],  1.0 + this._position[2],
+      -1.0 + this._position[0],  1.0 + this._position[1], -1.0 + this._position[2]];
 
     var indices = [
         0, 1, 2,

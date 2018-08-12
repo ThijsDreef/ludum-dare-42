@@ -18,7 +18,6 @@ class LineCollection {
   render(shader) {
     if (this.vBuffer) {
       this.vBuffer.attribPointer(shader);
-      console.log('hello');
       this.gl.drawArrays(this.gl.LINES, 0, this._lineObjects.length * 2);
     }
   }

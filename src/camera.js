@@ -2,10 +2,12 @@ class Camera {
   constructor(aspect) {
 
     this._rotation = [];
-    this._zoom = -20 - (aspect) * 25;
+    this._zoom = -25 - (aspect) * 25;
+    this._pointerUpThisFrame = false;
 
     for (let i = 0; i < 3; i++)
       this._rotation.push(0);
+
 
     this._setupEventListeners();
   }
@@ -16,6 +18,13 @@ class Camera {
 
   getZoom() {
     return this._zoom;
+  }
+
+  lastFrameUp() {
+    const pointerUp = this._pointerUpThisFrame;
+    this._pointerUpThisFrame = false;
+    return pointerUp;
+
   }
 
   getMousePos() {
@@ -31,14 +40,11 @@ class Camera {
   }
 
   pointerUp(e) {
-
-
     this._pointerDown = false;
+    this._pointerUpThisFrame = true;
   }
 
   pointerDown(e) {
-
-
     this._pointerDown = true;
     this._lastClientx = e.clientX;
     this._lastClienty = e.clientY;

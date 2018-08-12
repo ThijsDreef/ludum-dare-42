@@ -4,13 +4,13 @@ class PointCloud {
   constructor(points, size, range, gl) {
     this.gl = gl;
     this._points = [];
-    this._selected = -1;
+    this._selected = 0;
 
     if (points)
       this._points = points;
     else {
       for (let i = 0; i < size; i++) {
-        this._points.push([(range[0] * (Math.random() * 2 - 1)), (range[1] * (Math.random() * 2 - 1)), (range[2] * (Math.random() * 2 - 1))]);
+        this._points.push([(range[0] * (Math.random() * 2 - 1) + 1), (range[1] * (Math.random() * 2 - 1) + 1), (range[2] * (Math.random() * 2 - 1) + 1)]);
       }
     }
     this._createRenderBuffer();

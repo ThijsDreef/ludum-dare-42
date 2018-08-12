@@ -9,6 +9,11 @@
   touch-action: none;
 }
 
+.game-score {
+  position: absolute;
+  color: white;
+}
+
 body {
   margin: 0;
   overflow: hidden;

@@ -6,6 +6,7 @@ import Cube from './cube';
 import Camera from './camera';
 import CollisionDetection from './collisionDetection';
 import LineCollection from './lineCollection';
+import Score from './score';
 
 import PointCloud from './pointCloud';
 import pointVert from './shaders/point.vert';
@@ -22,16 +23,37 @@ const cubeShader = new nanogl.Program(gl, cubeVert, cubeFrag);
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 
-const p = new PointCloud(null, 24, [10, 10, 10], gl);
-const cube = new Cube(gl, [1, 1, 1]);
+const p = new PointCloud(null, 12, [10, 10, 10], gl);
+const cubes = [];
+cubes.push(new Cube(gl, [15, 15, 15]));
+cubes.push(new Cube(gl, [-15, 15, 15]));
+cubes.push(new Cube(gl, [15, -15, 15]));
+cubes.push(new Cube(gl, [15, 15, -15]));
+cubes.push(new Cube(gl, [-15, 15, -15]));
+cubes.push(new Cube(gl, [-15, -15, 15]));
+cubes.push(new Cube(gl, [15, -15, -15]));
+cubes.push(new Cube(gl, [-15, -15, -15]));
+
+
 const renderer = new Renderer();
 const cameraObject = new Camera(canvas.height / canvas.width);
 const lines = new LineCollection(gl);
+
 const cd = new CollisionDetection(lines, p);
 
+
+
+
+
+
+
 renderer.addObject(p);
-renderer.addObject(cube);
+for (let i = 0; i < cubes.length; i++)
+  renderer.addObject(cubes[i]);
+
 renderer.addObject(lines);
+
+
 renderer.addShader(pointsShader, 'points');
 renderer.addShader(cubeShader, 'cube');
 
@@ -40,6 +62,7 @@ let camera = mat4.create();
 gl.viewport(0, 0, canvas.width, canvas.height);
 gl.clearColor(0, 0, 0, 1);
 gl.enable(gl.DEPTH_TEST);
+
 gl.clear(gl.COLOR_BUFFER_BIT);
 
 draw();
@@ -48,11 +71,14 @@ function draw() {
   gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
   const pos = cameraObject.getMousePos();
   // console.log(pos);
-  mat4.perspective(camera, 45, canvas.width / canvas.height, 0.01, 100);
+  mat4.perspective(camera, 45, canvas.width / canvas.height, 0.01, 150);
   mat4.translate(camera, camera, [0, 0, cameraObject.getZoom()]);
   mat4.rotateY(camera, camera, cameraObject.getRotation()[1]);
   mat4.rotateX(camera, camera, cameraObject.getRotation()[0]);
-  cd.checkSelect({x: pos.x / canvas.width, y: pos.y / canvas.height}, camera);
+  if (cameraObject.lastFrameUp()) {
+    cd.checkSelect({x: pos.x / canvas.width, y: pos.y / canvas.height}, camera);
+
+  }
 
   renderer.setCamera(camera);
 
