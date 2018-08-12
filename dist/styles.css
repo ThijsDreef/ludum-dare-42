@@ -63,17 +63,13 @@
 .game-timer {
   color: white;
   font-size: 4em;
-  text-align: center; }
+  text-align: center;
+  padding: 0;
+  margin: 0; }
 
 .game-timer-container {
   position: absolute;
-  top: 5.5%;
-  min-width: 100px;
-  max-width: 200px;
-  left: 0;
-  right: 0;
-  margin-left: auto;
-  margin-right: auto;
+  right: -50%;
   text-align: center; }
 
 .game-advance-button {
